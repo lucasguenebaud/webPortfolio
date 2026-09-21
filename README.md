@@ -1,301 +1,58 @@
-# Software Developer Folio ⚡️ [![GitHub](https://img.shields.io/github/license/lucasguenebaud/developer-portfolio?color=blue)](https://github.com/lucasguenebaud/developerFolio/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/lucasguenebaud/developerFolio)](https://github.com/lucasguenebaud/developerFolio/stargazers)  [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
+# Lucas Guenebaud — portfolio
 
-## A clean, beautiful and responsive portfolio template for Developers!
+Personal portfolio for a Senior Data, Cloud & ML Engineer. Rebuilt around the CV in `../web/resume.json`, retaining the original DeveloperFolio purple palette, Montserrat typography, Agustina signature, illustrations, dark theme and animated reveals.
 
+## Run locally
 
-<p align="center">
-  <kbd>
-<img src="https://user-images.githubusercontent.com/49693820/81296489-999abf00-908f-11ea-9442-75e8f0ecf65d.gif"></img>
-  </kbd>
-</p>
+Use Node.js 22.12+ (Node 24 LTS recommended).
 
-
-Just change `src/portfolio.js` to get your personal portfolio. Feel free to use it as-is or customize it as much as you want.
-
-But if you want to **contribute** and make this much better for other developer have a look at [Issues](https://github.com/lucasguenebaud/developerFolio/issues).
-
-
-If you created something awesome and want to contribute then feel free to open an [pull request](https://github.com/lucasguenebaud/developerFolio/pulls).
-
-## Table of Contents
-- [Sections](#sections)
-- [Getting Started](#getting-started)
-- [How to Use](#how-to-use)
-- [Linking portfolio to Github](#linking-portfolio-to-github)
-- [Change and Customize](#change-and-customize-every-section-according-to-your-need)
-- [Deployment](#deployment)
-- [Technologies Used](#technologies-used)
-- [Illustrations](#illustrations)
-- [For the Future](#for-the-future)
-- [Contributors](#project-maintainers)
-
-## Sections
-✔️ Summary and About me\
-✔️ Skills\
-✔️ Education\
-✔️ Work Experience\
-✔️ Open Source Projects Connected with Github\
-✔️ Big Projects\
-✔️ Achievements And Certifications 🏆\
-✔️ Blogs\
-✔️ Talks\
-✔️ Podcast\
-✔️ Contact me\
-✔️ Twitter Timeline\
-✔️ Github Profile
-
-To view a live example, **[click here](https://developerfolio.js.org/)**.
-
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-You'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer or use [Docker](https://www.docker.com/products/docker-desktop).
-
-```
-node@v10.16.0 or higher
-npm@6.9.0 or higher
-git@2.17.1 or higher
-```
-### Docker Commands
-
-```
-1) BUILD IMAGE : docker build -t developerfolio:latest .
-2) RUN IMAGE: docker run -t -p 3000:3000 developerfolio:latest
+```sh
+npm ci
+npm start
 ```
 
+Open the local URL printed by Vite. For a production build:
 
-## How To Use 
-
-From your command line, clone and run developerFolio:
-
-```bash
-# Clone this repository
-$ git clone https://github.com/lucasguenebaud/developerFolio.git
-
-# Go into the repository
-$ cd developerFolio
-
-# Install dependencies
-$ npm install
-
-#Start's development server
-$ npm start
+```sh
+npm run build
+npm run preview
 ```
 
-## Linking Portfolio to Github
+Upload the contents of `build/` to a static host. Relative asset paths support both a domain root and a subdirectory. Nothing is published by these commands. No API keys, GitHub token or backend are needed. Fonts and artwork are served locally.
 
-Generate a Github personal access token following these [instructions](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) (make sure you don't select any scope just generate a simple token).
+On Google Drive for Windows, npm may fail with `EBADF` / `TAR_ENTRY_ERROR`. In that case copy the project (excluding `node_modules`, `.git` and `build`) to a local disk, run the commands there, and copy the generated `build/` back.
 
-1. Create a file called .env in the root directory of your project, check the base file
+## Content and CV updates
 
-Note: Instead of creating a .env file, you can just run this command "cp env.example .env" inside the root directory
+The canonical career history, projects, education, skills and contact details live in `../web/resume.json`. The portfolio commits a snapshot in `src/data/resume.json` so it also builds as a standalone repository.
 
-```bash
-- DeveloperFolio
-  - node_modules
-  - public
-  - src
-  - .env         <-- create it here
-  - env.example  <-- this is the base file
-  - .gitignore
-  - package-lock.json
-  - package.json
+After editing the canonical CV, install the dependencies in `../web` if needed, then run:
+
+```sh
+npm run sync:cv
+npm run build
 ```
 
-2. Inside the .env file, add key `REACT_APP_GITHUB_TOKEN` and assign your github token like this.
+The sync command regenerates the Elegant Pink HTML and PDF with the existing CV renderer, then copies both into `public/cv/` and updates the data snapshot. If Puppeteer cannot find Chrome, set `PUPPETEER_EXECUTABLE_PATH` to your Chrome executable before syncing. On Windows, for example:
 
-```javascript
- // .env
-  REACT_APP_GITHUB_TOKEN = "YOUR GITHUB TOKEN HERE"
+```powershell
+$env:PUPPETEER_EXECUTABLE_PATH = 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+npm run sync:cv
 ```
 
-Set `showGithubProfile` to true or false to show Contact Profile using Github, defaults to false.
+`src/portfolio-data.js` contains the short editorial summaries and technology selections. `src/App.jsx` provides the page sections; `src/App.css` and `src/index.css` define responsive layout, motion and themes. Employment highlights are taken directly from the CV. The displayed spelling of Sorbonne is corrected without altering the source CV. Chevalue has a contact link because no public project URL is provided in the CV. The previous GitHub profile link is retained; LinkedIn comes from the new CV.
 
-Note: Open Source Projects section only show pinned items of your Github.
-If you are seeing something as shown below, follow these [instructions](https://docs.github.com/en/enterprise/2.13/user/articles/pinning-items-to-your-profile).
+## Browser checks
 
-![ERROR](https://i.imgur.com/Hj6mu1K.png)
-
-If the above solution still doesn't work, visit the [wiki page](https://github.com/lucasguenebaud/developerFolio/wiki/Github-Setup-For-Open-Source-Projects).
-
-## Change and customize every section according to your need.
-
-#### Personalize page content in `/src/portfolio.js` & modify it as per your need.
-
-```javascript
-/* Change this file to get your Personal Porfolio */
-
-const greeting = {
-  /* Your Summary And Greeting Section */
-  title: "Hey, I'm Lucas !",
-  subTitle: "A passionate Robotics Engineer",
-  resumeLink: "https://drive.google.com/file/d/1hNo8gArOSpWSY7K2XNJew0DVoxk0wj6G/view?usp=sharing"
-};
-
-const socialMediaLinks = {
-  /* Your Social Media Link */
-  github: "https://github.com/lucasguenebaud",
-  linkedin: "https://www.linkedin.com/in/lucas-guenebaud-51227711b/",
-  gmail: "lucas.guenebaud@gmail.com",
-  gitlab: "https://gitlab.com/lucasguenebaud",
-  facebook: "https://www.facebook.com/lucas.guenebaud"
-};
-
-
-const skillsSection = { .... }
-
-const techStack = { .... }
-
-const workExperience = { .... }
-
-const openSource = { .... }
-
-const bigProjects = { .... }
-
-const achievementSection = { .... }
-
-const blogSection = { .... }
-
-const contactInfo = { .... }
-
-const twitterDetails = { ... }
-
+```sh
+npm run build
+npm test
 ```
 
-#### Using Emojis
+Tests use an installed Chrome/Chromium browser (set `PUPPETEER_EXECUTABLE_PATH` if it is not in a standard location). They check desktop/mobile overflow, real CV content and downloads, theme persistence, mobile navigation, keyboard access and reduced motion against the production build.
 
-For adding emoji 😃 into the texts in `Portfolio.js`, use the `emoji()` function and pass the text you need as an argument. This would help in keeping emojis compatible across different browsers and platforms.
+## Credits
 
-#### Adding Twitter Time line to your Page
-Insert your Twitter username in `portfolio.js` to show your recent activity on your page.
+This portfolio originated from [DeveloperFolio by Saad Pasta and contributors](https://github.com/saadpasta/developerFolio). The original contributor list is retained in `.all-contributorsrc`. Existing illustration and font assets are retained from that project; the Chevalue graph illustration is original SVG. Employer names are typeset text, not downloaded brand marks. No remote image, font, social embed, analytics or GitHub API requests are made by the portfolio.
 
-```javascript
-const twitterDetails = {
-  userName : "Your Twitter Username"
-};
-```
-Note: Don't use `@` symbol when adding username.
-
-## Deployment
-When you are done with the setup, you should host your website online.
-We highly recommend to read through the [Deploying on Github Pages](https://create-react-app.dev/docs/deployment/#github-pages) docs for React.
-
-#### Configuring GitHub Actions
-- Using the Personal Access Token you placed in the `.env` file earlier create a [repository secret](https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository) called `OPEN_SOURCE_TOKEN` where the value matches the token value from the `.env` file in your local workspace.
-- When you are done with the configuration, we highly recommend to read through the [Github Actions Configuring a workflow](https://docs.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow) docs.
-
-#### Deploying to Github Pages
-
-This section guides you to deploy your portfolio on Github pages.
-
-- Navigate to `package.json` and enter your domain name instead of `https://developerfolio.js.org/` in `homepage` variable. For example, if you want your site to be `https://<your-username>.github.io/developerFolio`, add the same to the homepage section of `package.json`.
-
-- In short you can also add `/devloperFolio` to `package.json` as both are exactly same. Upon doing so, you tell `create-react-app` to add the path assets accordingly.
-
-- Optionally, configure the domain. You can configure a custom domain with GitHub Pages by adding a `CNAME` file to the `public/` folder.
-
-- Follow through the guide to setup GitHub pages from the official CRA docs [here](https://create-react-app.dev/docs/deployment/#github-pages).
-
-#### Deploying to Netlify
-
-You could also host directly with Netlify by linking your own repository.
-
-[![Deploy To Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/lucasguenebaud/developerFolio)
-
-For more information, read [hosting on Netlify](https://create-react-app.dev/docs/deployment/#netlify).
-
-
-## Technologies Used 
-
-- [React](https://reactjs.org/)
-- [graphql](https://graphql.org/)
-- [apollo-boost](https://www.apollographql.com/docs/react/get-started/)
-- [react-twitter-embed](https://github.com/saurabhnemade/react-twitter-embed)
-- [react-easy-emoji](https://github.com/appfigures/react-easy-emoji)
-- [react-headroom](https://github.com/KyleAMathews/react-headroom)
-- [color-thief](https://github.com/lokesh/color-thief)
-
-## Illustrations
-- [UnDraw](https://undraw.co/illustrations)
-
-
-
-
-## For the Future
-If you can help us with these. Please don't hesitate to open a [pull request](https://github.com/lucasguenebaud/developerFolio/pulls).
-
-- Connect with LinkedIn to get Summary, Skills, Education and Experience
-
-- Move to Gatsby
-
-- Enable Dark Mode
-
-- Add More Sections
-
-## Project Maintainers 
-
-<table>
-  <tr>
-    <td align="center"><a href="http://lucasguenebaud.github.io"><img src="https://avatars2.githubusercontent.com/u/23307811?v=4" width="100px;" alt=""/><br /><sub><b>Lucas Pasta</b></sub></a></td>
-    <td align="center"><a href="https://github.com/kartikcho"><img src="https://avatars1.githubusercontent.com/u/48270786?v=4" width="100px;" alt=""/><br /><sub><b>Kartik Choudhary</b></sub></a></td>
-    <td align="center"><a href="https://naveen.syrusdark.website"><img src="https://avatars1.githubusercontent.com/u/49693820?v=4" width="100px;" alt=""/><br /><sub><b>Naveen M K</b></sub></a></td>
-    <td align="center"><a href="http://www.muhammadhasham.com"><img src="https://avatars0.githubusercontent.com/u/17927649?v=4" width="100px;" alt=""/><br /><sub><b>Muhammad Hasham</b></sub></a></td>
-  </tr>
-</table>
-
-## Contributors 
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="http://facebook.com/9inpachi"><img src="https://avatars2.githubusercontent.com/u/36920441?v=4" width="100px;" alt=""/><br /><sub><b>Fawad Ali</b></sub></a><br /><a href="#ideas-9inpachi" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/lucasguenebaud/developerFolio/commits?author=9inpachi" title="Code">💻</a></td>
-    <td align="center"><a href="https://dasunnavoda.wordpress.com/"><img src="https://avatars0.githubusercontent.com/u/5556085?v=4" width="100px;" alt=""/><br /><sub><b>Dasun Navoda</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=IamDZN" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://brian.teeman.net"><img src="https://avatars3.githubusercontent.com/u/1296369?v=4" width="100px;" alt=""/><br /><sub><b>Brian Teeman</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=brianteeman" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://rajkumaar.co.in"><img src="https://avatars1.githubusercontent.com/u/37476886?v=4" width="100px;" alt=""/><br /><sub><b>Rajkumar S</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=rajkumaar23" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/viveksharmaui"><img src="https://avatars1.githubusercontent.com/u/28563357?v=4" width="100px;" alt=""/><br /><sub><b>Slim Coder</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=viveksharmaui" title="Code">💻</a> <a href="https://github.com/lucasguenebaud/developerFolio/commits?author=viveksharmaui" title="Documentation">📖</a></td>
-    <td align="center"><a href="http://msayyaf.com"><img src="https://avatars3.githubusercontent.com/u/22149734?v=4" width="100px;" alt=""/><br /><sub><b>Mohamed Sayyaf</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=msayyaf1" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://ashutosh1919.github.io"><img src="https://avatars3.githubusercontent.com/u/20843596?v=4" width="100px;" alt=""/><br /><sub><b>Ashutosh Hathidara</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=ashutosh1919" title="Code">💻</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://www.upwork.com/freelancers/~01d10c23d4ffe3c658"><img src="https://avatars0.githubusercontent.com/u/8683960?v=4" width="100px;" alt=""/><br /><sub><b>Rizwan Jamal ⚡️</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=Rizwanjamal" title="Documentation">📖</a></td>
-    <td align="center"><a href="http://www.muhammadhasham.com"><img src="https://avatars0.githubusercontent.com/u/17927649?v=4" width="100px;" alt=""/><br /><sub><b>Muhammad Hasham</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=MohammadHasham" title="Code">💻</a></td>
-    <td align="center"><a href="https://sourcerer.io/joshiujjawal22"><img src="https://avatars3.githubusercontent.com/u/44023234?v=4" width="100px;" alt=""/><br /><sub><b>UJJAWAL JOSHI</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=joshiujjawal22" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/palak-sethi"><img src="https://avatars2.githubusercontent.com/u/51605219?v=4" width="100px;" alt=""/><br /><sub><b>Palak Sethi</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=palak-sethi" title="Code">💻</a></td>
-    <td align="center"><a href="https://viniciusbds.github.io/"><img src="https://avatars3.githubusercontent.com/u/34755896?v=4" width="100px;" alt=""/><br /><sub><b>Vinicius Barbosa</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=viniciusbds" title="Code">💻</a></td>
-    <td align="center"><a href="https://bharatkammakatla.github.io"><img src="https://avatars1.githubusercontent.com/u/28840761?v=4" width="100px;" alt=""/><br /><sub><b>Bharat Kammakatla</b></sub></a><br /><a href="#design-BharatKammakatla" title="Design">🎨</a></td>
-    <td align="center"><a href="http://bit.ly/garimasingh"><img src="https://avatars2.githubusercontent.com/u/44302373?v=4" width="100px;" alt=""/><br /><sub><b>Garima Singh</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=garimasingh128" title="Code">💻</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://github.com/HenryHengZJ"><img src="https://avatars2.githubusercontent.com/u/26460777?v=4" width="100px;" alt=""/><br /><sub><b>Henry Heng</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=HenryHengZJ" title="Code">💻</a> <a href="#design-HenryHengZJ" title="Design">🎨</a></td>
-    <td align="center"><a href="https://github.com/PulkitBanta"><img src="https://avatars2.githubusercontent.com/u/43134750?v=4" width="100px;" alt=""/><br /><sub><b>Pulkit Banta</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=PulkitBanta" title="Code">💻</a> <a href="https://github.com/lucasguenebaud/developerFolio/issues?q=author%3APulkitBanta" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/AkshayCHD"><img src="https://avatars1.githubusercontent.com/u/25455546?v=4" width="100px;" alt=""/><br /><sub><b>Akshay Kumar</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=AkshayCHD" title="Code">💻</a> <a href="https://github.com/lucasguenebaud/developerFolio/issues?q=author%3AAkshayCHD" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/AmnaEjaz"><img src="https://avatars3.githubusercontent.com/u/14257959?v=4" width="100px;" alt=""/><br /><sub><b>Amna Ejaz</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=AmnaEjaz" title="Code">💻</a> <a href="#ideas-AmnaEjaz" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/parasnagpal"><img src="https://avatars0.githubusercontent.com/u/39419139?v=4" width="100px;" alt=""/><br /><sub><b>Paras Nagpal</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=parasnagpal" title="Code">💻</a></td>
-    <td align="center"><a href="https://sourcerer.io/sparsh-99"><img src="https://avatars0.githubusercontent.com/u/56729873?v=4" width="100px;" alt=""/><br /><sub><b>Sparsh Garg</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=sparsh-99" title="Code">💻</a></td>
-    <td align="center"><a href="http://aashutosh.dev"><img src="https://avatars2.githubusercontent.com/u/21199234?v=4" width="100px;" alt=""/><br /><sub><b>Aashutosh Rathi</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=aashutoshrathi" title="Code">💻</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://abhishekashyap.studio/"><img src="https://avatars3.githubusercontent.com/u/29458374?v=4" width="100px;" alt=""/><br /><sub><b>Abhishek Kashyap</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/issues?q=author%3Aabhishekashyap" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/lcsvcn"><img src="https://avatars1.githubusercontent.com/u/6011385?v=4" width="100px;" alt=""/><br /><sub><b>Lucas V C Nicolau</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=lcsvcn" title="Documentation">📖</a></td>
-    <td align="center"><a href="http://bradleycherrin.com"><img src="https://avatars0.githubusercontent.com/u/5648785?v=4" width="100px;" alt=""/><br /><sub><b>Bradley C. Herrin</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=bradleycherrin" title="Documentation">📖</a> <a href="#ideas-bradleycherrin" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="http://www.zekinahlecaros.com"><img src="https://avatars0.githubusercontent.com/u/43392346?v=4" width="100px;" alt=""/><br /><sub><b>Zekinah Lecaros</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=zekinah" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/vandana1499"><img src="https://avatars2.githubusercontent.com/u/29394600?v=4" width="100px;" alt=""/><br /><sub><b>unbeat</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=vandana1499" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/lARSHADl"><img src="https://avatars3.githubusercontent.com/u/45604332?v=4" width="100px;" alt=""/><br /><sub><b>Arshad Ahmed</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=lARSHADl" title="Documentation">📖</a></td>
-    <td align="center"><a href="http://xiaohuiliu.me"><img src="https://avatars1.githubusercontent.com/u/33507446?v=4" width="100px;" alt=""/><br /><sub><b>Xiaohui Liu</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=Ergouzii" title="Documentation">📖</a> <a href="https://github.com/lucasguenebaud/developerFolio/commits?author=Ergouzii" title="Code">💻</a> <a href="#design-Ergouzii" title="Design">🎨</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://seungyeon-lee.github.io/"><img src="https://avatars1.githubusercontent.com/u/26589915?v=4" width="100px;" alt=""/><br /><sub><b>Seungyeon-Lee</b></sub></a><br /><a href="https://github.com/lucasguenebaud/developerFolio/commits?author=Seungyeon-Lee" title="Code">💻</a></td>
-  </tr>
-</table>
-
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
----
+The old Create React App, Apollo and react-reveal stack has been replaced with React, Vite and native CSS/IntersectionObserver animations. Empty template sections and obsolete integrations have been removed. Theme preferences are saved locally; reduced-motion preferences disable animations. The original implementation remains in Git history.

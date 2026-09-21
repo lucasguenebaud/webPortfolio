@@ -1,34 +1,116 @@
 @font-face {
-  font-family: 'Agustina Regular';
-  font-style: normal;
-  font-weight: normal;
-  src: local('Agustina Regular'), url('./assets/fonts/Agustina.woff') format('woff');
+  font-family: Agustina;
+  src: url("./assets/fonts/Agustina.woff") format("woff");
   font-display: swap;
 }
 @font-face {
-  font-family: 'Montserrat';
-  src: local('Montserrat'), url('./assets/fonts/Montserrat-Regular.ttf') format('woff');
+  font-family: Montserrat;
+  src: url("./assets/fonts/Montserrat-Regular.ttf") format("truetype");
   font-display: swap;
 }
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+:root {
+  font-family: Montserrat, Arial, sans-serif;
+  color: #23212d;
+  background: #fff;
+  --paper: #fff;
+  --surface: #faf8fd;
+  --ink: #23212d;
+  --muted: #676574;
+  --accent: #55198b;
+  --violet: #6c63ff;
+  --line: #e9e3f0;
+  --chip: #f1ebf8;
+  --shadow: 0 12px 36px -22px #55198b55;
+  color-scheme: light;
 }
-html,
-body {
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #171c28;
+  --surface: #1d2332;
+  --ink: #f4f1fa;
+  --muted: #b9bac9;
+  --accent: #c5a3ff;
+  --violet: #b2aaff;
+  --line: #353749;
+  --chip: #302a45;
+  --shadow: 0 12px 36px -22px #000;
+  background: var(--paper);
+  color: var(--ink);
+}
+* {
+  box-sizing: border-box;
+}
+html {
   scroll-behavior: smooth;
+  scroll-padding-top: 105px;
 }
 body {
   margin: 0;
-  font: 19px / 23px Montserrat, "Montserrat", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-size: 15px;
+  line-height: 1.8;
 }
-/* Media Query */
-@media (max-width: 1380px) {
-  html,
-  body {
-    font-size: 16px;
-    line-height: normal;
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+img,
+svg {
+  max-width: 100%;
+}
+img {
+  display: block;
+  height: auto;
+}
+p {
+  margin: 0 0 1em;
+}
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.25;
+  margin: 0;
+  color: var(--ink);
+}
+h2 {
+  font-size: clamp(29px, 3.25vw, 43px);
+  letter-spacing: -1.7px;
+}
+h3 {
+  font-size: 21px;
+  letter-spacing: -0.5px;
+}
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--violet);
+  outline-offset: 6px;
+  border-radius: 3px;
+}
+::selection {
+  background: #d9c2fa;
+  color: #291443;
+}
+section {
+  scroll-margin-top: 24px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
   }
 }
